@@ -27,7 +27,9 @@ export default function Application() {
     );
   }
 
-  Adw.StyleManager.get_default().set_color_scheme(Adw.ColorScheme.FORCE_DARK);
+  application.connect("startup", () => {
+    Adw.StyleManager.get_default().set_color_scheme(Adw.ColorScheme.FORCE_DARK);
+  });
 
   // FIXME: Cannot deal with mailto:, xmpp:, ... URIs
   // GFile mess the URI if the scheme separator does not include "//" like about:blank or mailto:foo@bar.com
