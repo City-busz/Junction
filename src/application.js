@@ -16,6 +16,8 @@ export default function Application() {
     flags: Gio.ApplicationFlags.HANDLES_OPEN,
   });
 
+  let welcome;
+
   // https://gitlab.gnome.org/GNOME/glib/-/issues/1960
   // https://github.com/sonnyp/Junction/commit/5140f410ffd2899a3bb1aba5929f9891741e02fb
   if (Xdp.Portal.running_under_sandbox()) {
@@ -51,9 +53,13 @@ export default function Application() {
   });
 
   application.connect("activate", () => {
-    Welcome({
-      application,
-    });
+    if (!welcome) {
+      welcome = Welcome({
+        application,
+      });
+    }
+
+    welcome.window.present();
   });
 
   application.connect("handle-local-options", (self, options) => {
